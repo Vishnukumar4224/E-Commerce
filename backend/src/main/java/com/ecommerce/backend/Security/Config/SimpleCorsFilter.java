@@ -1,7 +1,8 @@
 package com.ecommerce.backend.Security.Config;
 
 import java.io.IOException;
-
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -30,20 +31,22 @@ public class SimpleCorsFilter implements Filter{
     }
 
     @Override
-    public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) arg1;
-        HttpServletRequest request = (HttpServletRequest) arg0;
+        HttpServletResponse response = (HttpServletResponse) res;
+        HttpServletRequest request = (HttpServletRequest) req;
         String originHeader = request.getHeader("origin");
+        Map<String, String> map = new HashMap<>();
+
         response.setHeader("Access-Control-Allow-Origin", originHeader);
-        response.setHeader("Access-Control-Allow-Origin", "POST, GET, DELETE, PUT, OPTIONS");
-        response.setHeader("Access-Control-Allow-Origin", "3600");
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "*");
 
         if("OPTIONS".equalsIgnoreCase(request.getMethod())){
             response.setStatus(HttpServletResponse.SC_OK);
         }else{
-            arg2.doFilter(arg0, arg1);
+            chain.doFilter(req, res);;
         }
     }
 

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.Customizer;
 
 import com.ecommerce.backend.Security.Filters.JwtRequestFilter;
 
@@ -22,16 +23,21 @@ import lombok.RequiredArgsConstructor;
 public class WebSecurityConfiguration {
 
     private final JwtRequestFilter jwtRequestFilter;
+    // private final SimpleCorsFilter simpleCorsFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(customizer -> customizer.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/authenticate", "/sign-up", "/order/**").permitAll()
-                .requestMatchers("/api/**").authenticated())
-                .sessionManagement(session ->  session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+
+        return http.csrf(customizer -> customizer.disable()).
+                authorizeHttpRequests(request -> request
+                        .requestMatchers("/authenticate", "/sign-up", "/order").permitAll()
+                        .anyRequest().authenticated()).
+                httpBasic(Customizer.withDefaults()).
+                sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class) // Then add JWT filter
                 .build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
