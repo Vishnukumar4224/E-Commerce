@@ -1,30 +1,9 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid" style="background-color: #3348b8">
-    <h1 style="color: white;">E-Commerce</h1>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-      </ul>
-      <span class="navbar-text">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <button class="button" [routerLink]="['/Order']" routerLinkActive="router-link-active" >Track Order</button>
-          </li>
-          <li class="nav-item"  style="color: white;">
-            <button class="button" [routerLink]="['/signup']" routerLinkActive="router-link-active" >Register</button>
-          </li>
-          <li class="nav-item"  style="color: white;">
-            <button class="button" [routerLink]="['/login']" routerLinkActive="router-link-active" >Login</button>
-          </li>
-        </ul>
-      </span>
-    </div>
-  </div>
-</nav>
-
-
+<mat-toolbar color="primary" class="navbar">
+    <span class="navbar-brand">E-Commerce</span>
+    <span class="spacer"></span>
+    <button mat-button [routerLink]="['/order']" routerLinkActive="router-link-active">Track Order</button>
+    <button mat-button [routerLink]="['/signup']" routerLinkActive="router-link-active">Register</button>
+    <button mat-button [routerLink]="['/login']" routerLinkActive="router-link-active">Login</button>
+</mat-toolbar>
 
 <router-outlet></router-outlet>
